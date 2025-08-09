@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doğum Günün Kutlu Olsun</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(45deg, #ffb6c1, #ff69b4);
+            color: white;
+            margin: 0;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-top: 30px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        p {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background: white;
+            color: #ff69b4;
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #ffe4e1;
+        }
+
+        /* Pasta görünümü */
+        #cakeContainer {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 60px; /* Pasta biraz daha aşağıda */
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .cake {
+            position: relative;
+            width: clamp(120px, 40vw, 150px);
+            height: clamp(120px, 40vw, 150px);
+            background: #d2691e;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .icing {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 33%;
+            background: #fff0f5;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .candle {
+            position: absolute;
+            top: -25%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 13%;
+            height: 25%;
+            background: yellow;
+        }
+
+        .flame {
+            position: absolute;
+            top: -40%;
+            left: 25%;
+            width: 50%;
+            height: 40%;
+            background: orange;
+            border-radius: 50%;
+            animation: flicker 0.3s infinite;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Animasyonlu konfeti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: yellow;
+            animation: fall 4s linear infinite;
+            z-index: 999;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10px) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        /* Not ekranı */
+        #noteScreen {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            background: linear-gradient(45deg, #ffb6c1, #ff69b4);
+            animation: fadeIn 1.5s ease-in-out;
+            text-align: center;
+        }
+
+        #noteScreen h2 {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin-bottom: 15px;
+        }
+
+        #noteScreen p {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            max-width: 90%;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div id="mainContent">
+        <h1>🎉 Doğum Günün Kutlu Olsun! 🎂</h1>
+        <p>Sen benim için çok özelsin 💖</p>
+        <button onclick="showCake()">Buna Tıkla</button>
+    </div>
+
+    <div id="cakeContainer">
+        <div class="cake">
+            <div class="icing"></div>
+            <div class="candle">
+                <div class="flame" id="flame"></div>
+            </div>
+        </div>
+        <h2>🎬 Geleceğin Sinemacısı</h2>
+        <p>📽️ 🎥 🎞️ 🎬</p>
+        <button onclick="blowCandles()">Mumları Üfle</button>
+    </div>
+
+    <div id="noteScreen">
+        <h2>Benden Sana Not 💌</h2>
+        <p id="noteText">Hayallerinin peşinden koşmaya devam et. Ben her zaman yanında olacağım 💖</p>
+        <h2>🎉 Tekrar Doğum Günün Kutlu Olsun 🎂</h2>
+    </div>
+
+    <script>
+        function showCake() {
+            document.getElementById("mainContent").style.display = "none";
+            document.getElementById("cakeContainer").style.display = "flex";
+            createConfetti();
+        }
+
+        function blowCandles() {
+            document.getElementById("flame").style.display = "none";
+            document.getElementById("cakeContainer").style.display = "none";
+            document.getElementById("noteScreen").style.display = "flex";
+            createConfetti();
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                let confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+                confetti.style.left = Math.random() * window.innerWidth + "px";
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 4000);
+            }
+        }
+
+        function getRandomColor() {
+            let colors = ["#ff0", "#f0f", "#0ff", "#0f0", "#f00", "#00f"];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+    </script>
+</body>
+</html>
